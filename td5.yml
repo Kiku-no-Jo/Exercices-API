@@ -1,0 +1,20 @@
+paths:
+  /customers/{customerId}:
+    patch:
+      summary: Partially update a customer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          description: The ID of the customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                age:
+                  type: integer
+  

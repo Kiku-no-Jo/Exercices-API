@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: link
+  version: 1.0.1
+server:
+  - url: https://localhost.link.com
+paths:
+  /customers/{customerId}/orders:
+    get:
+      summary: "Get orders for a specific customer"
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          description: The ID of the customer
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+    post:
+      summary: "Create a new order for a specific customer"
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          description: The ID of the customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrder'
+      responses:
+        '201':
+          description: The created order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+    patch:
+      summary: Partially update a customer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          description: The ID of the customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                age:
+                  type: integer
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        reference:
+          type: string
+        meals:
+          type: array
+          items:
+            type: object
+            properties:
+              meal:
+                $ref: '#/components/schemas/Meal'
+              quantity:
+                type: integer
+        orderDatetime:
+          type: string
+          format: date-time
+    
